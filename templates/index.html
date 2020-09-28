@@ -1,0 +1,20 @@
+{% extends 'layout.html' %} {% from '_macros.html' import render_button,
+render_file_field %} {% block title %} {{ title }} {% endblock %} {% block
+content %}
+<div class="form-upload">
+  <form
+    action=""
+    class="needs-validattion"
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+      <legend class="border-auto mb-4">Upload files</legend>
+      {{ render_file_field(form.internal_file) }} {{
+      render_file_field(form.inside_file) }}
+    </fieldset>
+    {{ render_button(form.submit) }}
+  </form>
+</div>
+{% endblock %}

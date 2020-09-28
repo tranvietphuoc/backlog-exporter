@@ -1,0 +1,10 @@
+{% extends 'layout.html' %} {% block content %}
+<div class="export">
+  <div class="btn-export" type="submit">
+    <a href="{{ url_for('export_backlog') }}">Xuất backlog</a>
+  </div>
+  <div class="btn-export" type="submit">
+    <a href="{{ url_for('export_inventory') }}">Xuất RP giao</a>
+  </div>
+</div>
+{% endblock %}

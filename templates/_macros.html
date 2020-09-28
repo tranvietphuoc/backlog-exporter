@@ -1,0 +1,12 @@
+{% macro render_file_field(field) %}
+<div class="form-group">
+  {{ field.label() }} {{ field(class="form-control-file") }} {% if field.errors
+  %} {% for error in field.errors %}
+  <span class="text-danger">{{ error }}</span>
+  {% endfor %} {% endif %}
+</div>
+{% endmacro %} {% macro render_button(field) %}
+<div class="form-group">
+  {{ field(class="btn btn-secondary") }}
+</div>
+{% endmacro %}

@@ -1,0 +1,112 @@
+header {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  align-content: center;
+  height: 80px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2px;
+
+  padding-bottom: 1em;
+  background-color: white;
+}
+
+.page-content {
+  padding: 60px;
+  margin: auto;
+  background: lightgray;
+}
+
+.logo {
+  height: 70px;
+  width: 140px;
+  align-items: center;
+  align-content: center;
+  padding-top: 5px;
+  padding-left: 5px;
+  border: auto;
+}
+
+img {
+  height: 80px;
+  width: 160px;
+  align-items: center;
+  align-content: center;
+  padding-top: 2px;
+}
+
+img:hover {
+  background-color: #ccc; 
+}
+
+span {
+  padding-top: 50px;
+  font-family: sans-serif;
+  font-size: xx-large;
+  font-weight: 5px;
+  color: orange;
+}
+
+.main-content {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  height: 500px;
+  margin: 5px 5px 5px 5px;
+  padding: 2px 5px 2px 5px;
+}
+
+.center-content {
+  background: lightgrey;
+  border: 3px solid;
+  border-radius: 10px;
+  margin: 1em;
+  padding: 1em;
+  text-align: center;
+}
+
+.form-upload {
+  margin-top: 3em;
+  margin-bottom: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  text-align: left;
+}
+
+.btn-export {
+  display: block;
+  border-style: solid;
+  border-color: #bbb #888 #666 #aaa;
+  border-width: 3px 4px 4px 3px;
+  width: 9em;
+  height: 2em;
+  background: #ccc;
+  color: #333;
+  line-height: 2;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.btn-export:hover {
+  border-color: #666 #aaa #bbb #888;
+  border-width: 4px 3px 3px 4px;
+  color: #000;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.export {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 160px;
+}
+
+.page-title {
+  text-align: center;
+  width: 60em;
+  margin-top: 1em;
+}
