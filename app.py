@@ -75,6 +75,7 @@ def export_backlog():
             "MaKien",
         ]
     ]
+
     resp = make_response(
         backlog_to_export.to_csv(index=False, encoding="utf-8-sig")
     )  # make response of dataframe to csv
@@ -104,6 +105,7 @@ def export_inventory():
             "H_ve_kho",
         ]
     ]
+
     resp = make_response(
         inventory_to_export.to_csv(index=False, encoding="utf-8-sig")
     )  # make response of dataframe to csv
