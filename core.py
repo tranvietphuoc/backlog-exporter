@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime
-from utils import split_date, split_time
+from utils import split_date, split_time, convert_string_to_num
 import numpy as np
 import pytz
 
@@ -62,14 +62,17 @@ class Backlog:
                 "TGKetThuc",
             ]
         ].apply(
-            lambda x: pd.to_datetime(
-                x, format="%d/%m/%Y %H:%M:%S"
-            ).dt.tz_localize(tz=self.tz)
+            lambda x: pd.to_datetime(x, format="%d/%m/%Y %H:%M:%S").dt.tz_localize(
+                tz=self.tz
+            )
         )
         # convert type of int
         self.df_inside["KhoGui"] = self.df_inside["KhoGui"].astype(int)
         self.df_inside["KhoNhan"] = self.df_inside["KhoNhan"].astype(int)
         self.df_inside["KhoHienTai"] = self.df_inside["KhoHienTai"].astype(int)
+        self.df_inside["MaDH"] = self.df_inside["MaDH"].apply(
+            lambda x: convert_string_to_num(x)
+        )
 
         # normalize export dataframe
         # replace all <nil> to np.nan
@@ -200,18 +203,13 @@ class Backlog:
         pickup = self.data[pickup_filter]
         pickup["LoaiBacklog"] = "Kho lấy"
         ecoms = (
-            self.shopee_codes
-            + self.sendo_codes
-            + self.tiki_codes
-            + self.lazada_codes
+            self.shopee_codes + self.sendo_codes + self.tiki_codes + self.lazada_codes
         )
         ecoms_filter = pickup["MaKH"].isin(ecoms)
         pickup.loc[ecoms_filter, "N0"] = pickup.loc[ecoms_filter][
             "ThoiGianTaoChuyenDoi"
         ]
-        pickup.loc[~ecoms_filter, "N0"] = pickup.loc[~ecoms_filter][
-            "ThoiGianTao"
-        ]
+        pickup.loc[~ecoms_filter, "N0"] = pickup.loc[~ecoms_filter]["ThoiGianTao"]
         pickup["N+"] = pickup["N0"] + pd.Timedelta(hours=72)
         pickup["Aging"] = (datetime.now(tz=self.tz) - pickup["N+"]).fillna(
             pd.Timedelta(hours=9999)
@@ -245,9 +243,9 @@ class Backlog:
         )  # HCM or HN deadline
         # transporting['N+'] = transporting['N0'] + pd.Timedelta(hours=32)  # all the rest
         # places
-        transporting["Aging"] = (
-            datetime.now(tz=self.tz) - transporting["N+"]
-        ).fillna(pd.Timedelta(hours=9999))
+        transporting["Aging"] = (datetime.now(tz=self.tz) - transporting["N+"]).fillna(
+            pd.Timedelta(hours=9999)
+        )
 
         # return transporting backlog
         rt_filter = (
@@ -284,10 +282,7 @@ class Backlog:
         ).fillna(pd.Timedelta(hours=9999))
 
         ecoms = (
-            self.shopee_codes
-            + self.sendo_codes
-            + self.tiki_codes
-            + self.lazada_codes
+            self.shopee_codes + self.sendo_codes + self.tiki_codes + self.lazada_codes
         )
 
         # composit data
@@ -300,12 +295,8 @@ class Backlog:
         temp_data.loc[
             temp_data["MaKH"].isin(self.shopee_codes), "Ecommerces"
         ] = "Shopee"
-        temp_data.loc[
-            temp_data["MaKH"].isin(self.sendo_codes), "Ecommerces"
-        ] = "Sendo"
-        temp_data.loc[
-            temp_data["MaKH"].isin(self.tiki_codes), "Ecommerces"
-        ] = "Tiki"
+        temp_data.loc[temp_data["MaKH"].isin(self.sendo_codes), "Ecommerces"] = "Sendo"
+        temp_data.loc[temp_data["MaKH"].isin(self.tiki_codes), "Ecommerces"] = "Tiki"
         temp_data.loc[
             temp_data["MaKH"].isin(self.lazada_codes), "Ecommerces"
         ] = "Lazada"
@@ -313,8 +304,7 @@ class Backlog:
         temp_data["Aging_ToanTrinh"] = np.nan
         ecoms_filter = temp_data["MaKH"].isin(ecoms)
         temp_data.loc[ecoms_filter, "Aging_ToanTrinh"] = (
-            datetime.now(tz=self.tz)
-            - temp_data[ecoms_filter]["ThoiGianTaoChuyenDoi"]
+            datetime.now(tz=self.tz) - temp_data[ecoms_filter]["ThoiGianTaoChuyenDoi"]
         )
         temp_data.loc[~ecoms_filter, "Aging_ToanTrinh"] = (
             datetime.now(tz=self.tz) - temp_data[~ecoms_filter]["ThoiGianTao"]
@@ -341,9 +331,7 @@ class Backlog:
         mistaken_delivery_filter = ~inventory["GhiChuGHN"].isnull() & inventory[
             "GhiChuGHN"
         ].str.contains(
-            datetime.now(tz=pytz.timezone("Asia/Ho_Chi_Minh")).strftime(
-                "%d/%m/%Y"
-            )
+            datetime.now(tz=pytz.timezone("Asia/Ho_Chi_Minh")).strftime("%d/%m/%Y")
         )
         inventory.loc[never_delivery_filter, "LoaiXuLy"] = "Chưa giao lần nào"
         inventory.loc[mistaken_delivery_filter, "LoaiXuLy"] = "Giao lỗi"

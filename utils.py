@@ -14,3 +14,10 @@ def split_time(d):
         return d.strftime("%H:%M")
     except ValueError:
         return np.nan
+
+
+def convert_string_to_num(value):
+    try:
+        return int(value)
+    except ValueError:
+        return value
