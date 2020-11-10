@@ -8,7 +8,7 @@ import pytz
 class Backlog:
     """Handle backlog."""
 
-    shopee_codes = ["18692"]
+    shopee_codes = ["18692", "224845"]
     sendo_codes = ["1539", "1160902", "1160904", "1160905"]
     tiki_codes = ["1367"]
     lazada_codes = ["1041351", "9794"]
